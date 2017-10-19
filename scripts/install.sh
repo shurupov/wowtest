@@ -25,7 +25,7 @@ if [ "$OS_TYPE" == "centos6" ]; then
     soft/osbased/centos6.sh
 fi
 
-if INSTALL_PHPMYADMIN; then
+if $INSTALL_PHPMYADMIN; then
     cd $SOURCES_PATH
     chmod +x soft/pma.sh
     soft/pma.sh
@@ -41,9 +41,9 @@ if $INSTALL_PROJECT && $INSTALL_PHP && $INSTALL_APACHE; then
     chmod +x soft/composer.sh
     soft/composer.sh
 
-    cd $SOURCES_PATH/soft
-    chmod +x wowtest.sh
-    ./wowtest.sh
+    cd $SOURCES_PATH
+    chmod +x soft/wowtest.sh
+    soft/wowtest.sh
 
 fi
 
