@@ -11,6 +11,6 @@ GITHUB_ACCESS_TOKEN=c6289bbe7d5a39dbfffcfd3c0ad3905b83252226
 composer global require "fxp/composer-asset-plugin:^1.2.0"
 composer config -g github-oauth.github.com $GITHUB_ACCESS_TOKEN
 
-sudo chmod 777 /var/www/html/test -R
-cd /var/www/html/test
+sudo chmod 777 /var/www/html/wowtest -R
+cd /var/www/html/wowtest
 composer install
