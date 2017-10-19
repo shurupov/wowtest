@@ -17,10 +17,11 @@ if $INSTALL_APACHE; then
     sudo apt install apache2 -y
     sudo rm /etc/apache2/sites-enabled/*
 
+    #todo change condition
         # Check if it is vagrant or real server
-    if [ -d /opt/modules ]; then #vagrant
+#    if [ -d /opt/modules ]; then #vagrant
         sudo sed -i "s/www-data/ubuntu/g" /etc/apache2/envvars
-    fi
+#    fi
 
     sudo a2enmod rewrite
 
