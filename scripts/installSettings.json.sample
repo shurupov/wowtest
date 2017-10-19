@@ -7,5 +7,5 @@
     "project" : true
   },
   "dbPassword" : "12345",
-  "githubToken": "c6289bbe7d5a39dbfffcfd3c0ad3905b83252226"
+  "githubToken": ""
 }

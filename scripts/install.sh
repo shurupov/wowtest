@@ -16,6 +16,8 @@ export INSTALL_PROJECT=$(cat installSettings.json | /usr/local/bin/jq '.install.
 
 export DBPASSWD=$(cat installSettings.json | /usr/local/bin/jq '.dbPassword' -r)
 
+export GITHUB_ACCESS_TOKEN=$(cat installSettings.json | /usr/local/bin/jq '.githubToken' -r)
+
 if [ "$OS_TYPE" == "ubuntu1604" ]; then
     chmod +x soft/osbased/ubuntu1604.sh
     soft/osbased/ubuntu1604.sh
