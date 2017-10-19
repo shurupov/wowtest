@@ -1,0 +1,10 @@
+{
+  "install" : {
+    "php" : true,
+    "mysql" : true,
+    "apache" : true,
+    "phpmyadmin" : false,
+    "project" : true
+  },
+  "dbPassword" : "12345"
+}
