@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\UploadForm;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -9,6 +10,7 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use yii\web\UploadedFile;
 
 class SiteController extends Controller
 {
@@ -62,6 +64,35 @@ class SiteController extends Controller
     public function actionIndex()
     {
         return $this->render('index');
+    }
+
+    /**
+     * Метод загрузки.
+     *
+     * @return string
+     */
+    public function actionUpload()
+    {
+
+        try {
+
+            if (Yii::$app->request->isPost) {
+
+                move_uploaded_file($_FILES['files']['tmp_name'][0], Yii::getAlias('@webroot') . '/uploads/' . $_FILES['files']['name'][0]);
+
+                return json_encode([
+                    'status' => 'ok'
+                ]);
+            }
+
+        } catch (\Exception $e) {
+
+            return json_encode([
+                'status' => 'error'
+            ]);
+
+        }
+
     }
 
     /**

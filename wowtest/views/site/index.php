@@ -7,11 +7,19 @@ $this->title = 'My Yii Application';
 <div class="site-index">
 
     <div class="jumbotron">
-        <h1>Congratulations!</h1>
+        <h1>Загрузить</h1>
 
-        <p class="lead">You have successfully created your Yii-powered application.</p>
+        <p class="lead">Нажмите на кнопку ниже или перетащите в неё файл</p>
 
-        <p><a class="btn btn-lg btn-success" href="http://www.yiiframework.com">Get started with Yii</a></p>
+        <p>
+            <span class="btn btn-lg btn-success fileinput-button">
+                <i class="glyphicon glyphicon-plus"></i>
+                <span>Выбрать файл...</span>
+                            <!-- The file input field used as target for the file upload widget -->
+                <input id="fileupload" type="file" name="files[]" multiple>
+            </span>
+        </p>
+
     </div>
 
     <div class="body-content">
