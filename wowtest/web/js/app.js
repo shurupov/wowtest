@@ -10,14 +10,14 @@ $(document).ready(function () {
 
             console.log(result);
 
-            var processor = new PDFProcessor(result.id);
+            var processor = new PDFProcessor(result.id, result.pages);
         }
 
     });
 
 });
 
-var PDFProcessor = function(id) {
+var PDFProcessor = function(id, pages) {
 
     var $component;
     var $bar;
@@ -52,7 +52,7 @@ var PDFProcessor = function(id) {
             success: function(data) {
                 console.log(data);
 
-                var progress = data.count;
+                var progress = Math.round( (data.page / pages) * 100);
 
                 if (progress > 100) {
                     progress = 100;
@@ -60,7 +60,7 @@ var PDFProcessor = function(id) {
 
                 $bar.html(progress + '%').css('width', progress + '%');
 
-                if (data.count < 100) {
+                if (progress < 100) {
                     fetchStatus();
                 }
 

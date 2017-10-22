@@ -2,7 +2,7 @@
 
 namespace app\controllers;
 
-use app\models\UploadForm;
+use Imagick;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -10,7 +10,6 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
-use yii\web\UploadedFile;
 
 class SiteController extends Controller
 {
@@ -80,11 +79,35 @@ class SiteController extends Controller
 
                 $id = uniqid();
 
-                move_uploaded_file($_FILES['files']['tmp_name'][0], Yii::getAlias('@webroot') . '/uploads/' . $id);
+                $pdf_filename = Yii::getAlias('@webroot') . '/uploads/' . $id;
+
+                move_uploaded_file($_FILES['files']['tmp_name'][0], $pdf_filename);
+
+
+                /* Это неплохо бы переместить в сервис для pdf */
+                $f = fopen($pdf_filename, "r");
+
+                $pageCount = 0;
+
+                while(!feof($f)) {
+                    $line = fgets($f,255);
+                    if (preg_match('/\/Count [0-9]+/', $line, $matches)){
+                        preg_match('/[0-9]+/',$matches[0], $matches2);
+                        if ($pageCount < $matches2[0]) $pageCount=$matches2[0];
+                    }
+                }
+                fclose($f);
+
+                Yii::$app->session->set($id, [
+                    'id' => $id,
+                    'pages' => $pageCount,
+                    'page' => 0
+                ]);
 
                 return json_encode([
                     'status' => 'ok',
-                    'id' => $id
+                    'id' => $id,
+                    'pages' => $pageCount
                 ]);
             }
 
@@ -106,21 +129,26 @@ class SiteController extends Controller
     public function actionProcess()
     {
 
-        $count = Yii::$app->session->get(Yii::$app->request->post('id'));
+        $id = Yii::$app->request->post('id');
 
-        if (!$count) {
-            $count = 1;
-        } else {
-            $count+= rand(0, 15);
+        $data = Yii::$app->session->get($id);
+
+        if ($data['page'] < $data['pages']) {
+            $myurl = Yii::getAlias('@webroot') . '/uploads/' . $id . '[' . $data['page'] . ']';
+            $image = new Imagick($myurl);
+            $image->setResolution( 300, 300 );
+            $image->setImageFormat( "png" );
+            $image->writeImage( Yii::getAlias('@webroot') . '/pdf-images/' . $id . '_' . $data['page'] . '.png' );
+
+            $data['page'] += 1;
+
+            Yii::$app->session->set(Yii::$app->request->post('id'), $data);
         }
-
-        sleep(1);
-
-        Yii::$app->session->set(Yii::$app->request->post('id'), $count);
 
         return json_encode([
             'status' => 'ok',
-            'count' => $count
+            'page' => $data['page'],
+            'pageCount' => $data['pages']
         ]);
 
     }
