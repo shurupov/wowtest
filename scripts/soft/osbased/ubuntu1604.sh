@@ -29,6 +29,7 @@ fi
 
 if $INSTALL_PHP; then
     sudo apt install php-cli php-common php-json php-mysql php-mbstring php-gd php-curl php-zip libapache2-mod-php php-xml php-intl php-mongodb php-imagick wget curl php-solr -y
+    sudo sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 200M/g" /etc/php/7.0/apache2/php.ini
 fi
 
 if $INSTALL_PHP && $INSTALL_APACHE; then
