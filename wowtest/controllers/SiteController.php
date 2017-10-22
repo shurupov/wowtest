@@ -78,10 +78,13 @@ class SiteController extends Controller
 
             if (Yii::$app->request->isPost) {
 
-                move_uploaded_file($_FILES['files']['tmp_name'][0], Yii::getAlias('@webroot') . '/uploads/' . $_FILES['files']['name'][0]);
+                $id = uniqid();
+
+                move_uploaded_file($_FILES['files']['tmp_name'][0], Yii::getAlias('@webroot') . '/uploads/' . $id);
 
                 return json_encode([
-                    'status' => 'ok'
+                    'status' => 'ok',
+                    'id' => $id
                 ]);
             }
 
@@ -92,6 +95,33 @@ class SiteController extends Controller
             ]);
 
         }
+
+    }
+
+    /**
+     * Метод обработки.
+     *
+     * @return string
+     */
+    public function actionProcess()
+    {
+
+        $count = Yii::$app->session->get(Yii::$app->request->post('id'));
+
+        if (!$count) {
+            $count = 1;
+        } else {
+            $count+= rand(0, 15);
+        }
+
+        sleep(1);
+
+        Yii::$app->session->set(Yii::$app->request->post('id'), $count);
+
+        return json_encode([
+            'status' => 'ok',
+            'count' => $count
+        ]);
 
     }
 
