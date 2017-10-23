@@ -121,3 +121,11 @@ a.desc:after {
     -webkit-mask-image: linear-gradient(to right, black 70%, transparent 97%);
     mask-image: linear-gradient(to right, black 70%, transparent 97%);
 }
+
+.process .progress {
+    margin-bottom: 5px;
+}
+
+.process {
+    margin-bottom: 20px;
+}

@@ -16,15 +16,15 @@ $(document).ready(function () {
 
 });
 
-var ProcessExecutor = function() {
+ProcessExecutor = function() {
 
     var processes = [];
 
-    this.ready = function(id) {
+    this.ready = function(processor) {
         if (processes.length == 1) {
-            console.log('ready ' + id + ' redirect');
+            location.href = '/result/' + processor.getId();
         } else {
-            console.log('ready ' + id + ' add links');
+            processor.addResultLink();
         }
 
     };
@@ -35,7 +35,7 @@ var ProcessExecutor = function() {
 
 };
 
-var PDFProcessor = function(data, readyHandler) {
+PDFProcessor = function(data, readyHandler) {
 
     var id;
     var pages;
@@ -43,8 +43,19 @@ var PDFProcessor = function(data, readyHandler) {
     var $component;
     var $bar;
     var $title;
+    var $resultContainer;
+
+    var that = this;
 
     init();
+
+    this.getId = function() {
+        return id;
+    };
+
+    this.addResultLink = function() {
+        $resultContainer.html('<a href="/result/' + id + '" target="_blank">Посмотреть результат</a>');
+    };
 
     function init() {
 
@@ -58,12 +69,14 @@ var PDFProcessor = function(data, readyHandler) {
                     '0%' +
                 '</div>' +
             '</div>' +
+            '<div class="result-container">&nbsp;</div>' +
         '</div>');
 
         $('.processors').append($component);
 
         $bar = $component.find('.progress-bar');
         $title = $component.find('h4');
+        $resultContainer = $component.find('.result-container');
 
         fetchStatus();
 
@@ -89,7 +102,7 @@ var PDFProcessor = function(data, readyHandler) {
                 if (progress < 100) {
                     fetchStatus();
                 } else {
-                    readyHandler(id);
+                    readyHandler(that);
                 }
 
             }
