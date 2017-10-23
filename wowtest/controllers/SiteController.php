@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\Document;
 use Imagick;
 use Yii;
 use yii\filters\AccessControl;
@@ -98,6 +99,14 @@ class SiteController extends Controller
                 }
                 fclose($f);
 
+                $document = new Document();
+                $document->id = $id;
+                $document->name = $_FILES['files']['name'][0];
+                $document->pages_count = $pageCount;
+                $document->created = time();
+
+                $document->save(false);
+
                 Yii::$app->session->set($id, [
                     'id' => $id,
                     'pages' => $pageCount,
@@ -154,9 +163,19 @@ class SiteController extends Controller
 
     }
 
-    public function actionResult($id)
+    public function actionResult($id, $page = 0)
     {
-        echo $id;
+        $document = Document::findOne(['id' => $id]);
+
+        if (!$document || (time() - $document->created > 30 * 60)) {
+            return $this->redirect('/');
+        }
+
+        return $this->render('slider', [
+            'id' => $id,
+            'document' => $document,
+            'page' => $page
+        ]);
     }
 
     /**

@@ -45,6 +45,7 @@ $config = [
             'showScriptName' => false,
             'rules' => [
                 'result/<id>' => 'site/result',
+                'result/<id>/<page>' => 'site/result',
             ],
         ],
 
