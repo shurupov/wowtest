@@ -1,32 +1,58 @@
 $(document).ready(function () {
 
+    var processExecutor = new ProcessExecutor();
+
     $('#fileupload').fileupload({
         // Uncomment the following to send cross-domain cookies:
         //xhrFields: {withCredentials: true},
         url: '/site/upload',
         done: function (e, data) {
 
-            var result = JSON.parse(data.result);
+            processExecutor.startProcess( JSON.parse(data.result) );
 
-            console.log(result);
-
-            var processor = new PDFProcessor(result.id, result.pages);
         }
 
     });
 
 });
 
-var PDFProcessor = function(id, pages) {
+var ProcessExecutor = function() {
+
+    var processes = [];
+
+    this.ready = function(id) {
+        if (processes.length == 1) {
+            console.log('ready ' + id + ' redirect');
+        } else {
+            console.log('ready ' + id + ' add links');
+        }
+
+    };
+
+    this.startProcess = function(data) {
+        processes.push(new PDFProcessor(data, this.ready));
+    };
+
+};
+
+var PDFProcessor = function(data, readyHandler) {
+
+    var id;
+    var pages;
 
     var $component;
     var $bar;
+    var $title;
 
     init();
 
     function init() {
 
-        $component = $('<div class="col-md-6">' +
+        id = data.id;
+        pages = data.pages;
+
+        $component = $('<div class="col-md-6 process">' +
+            '<h4>' + data.name + '</h4>' +
             '<div class="progress">' +
                 '<div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0">' +
                     '0%' +
@@ -37,6 +63,7 @@ var PDFProcessor = function(id, pages) {
         $('.processors').append($component);
 
         $bar = $component.find('.progress-bar');
+        $title = $component.find('h4');
 
         fetchStatus();
 
@@ -50,7 +77,6 @@ var PDFProcessor = function(id, pages) {
             data: { id: id },
             dataType: 'json',
             success: function(data) {
-                console.log(data);
 
                 var progress = Math.round( (data.page / pages) * 100);
 
@@ -62,6 +88,8 @@ var PDFProcessor = function(id, pages) {
 
                 if (progress < 100) {
                     fetchStatus();
+                } else {
+                    readyHandler(id);
                 }
 
             }

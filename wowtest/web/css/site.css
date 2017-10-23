@@ -113,3 +113,11 @@ a.desc:after {
 .nav > li > form > button.logout:focus {
     outline: none;
 }
+
+
+.process h4 {
+    overflow: hidden;
+    white-space: nowrap;
+    -webkit-mask-image: linear-gradient(to right, black 70%, transparent 97%);
+    mask-image: linear-gradient(to right, black 70%, transparent 97%);
+}

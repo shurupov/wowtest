@@ -107,7 +107,8 @@ class SiteController extends Controller
                 return json_encode([
                     'status' => 'ok',
                     'id' => $id,
-                    'pages' => $pageCount
+                    'pages' => $pageCount,
+                    'name' => $_FILES['files']['name'][0]
                 ]);
             }
 
