@@ -54,7 +54,10 @@ PDFProcessor = function(data, readyHandler) {
     };
 
     this.addResultLink = function() {
-        $resultContainer.html('<a href="/result/' + id + '" target="_blank">Посмотреть результат</a>');
+        $resultContainer.html(
+            '<a href="/result/' + id + '" target="_blank">Посмотреть результат</a>' +
+            '<a href="/download/' + id + '" target="_blank">Скачать</a>'
+        );
     };
 
     function init() {

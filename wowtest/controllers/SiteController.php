@@ -11,6 +11,18 @@ class SiteController extends Controller
 {
 
     /**
+     * @inheritdoc
+     */
+    public function actions()
+    {
+        return [
+            'error' => [
+                'class' => 'yii\web\ErrorAction',
+            ]
+        ];
+    }
+
+    /**
      * Displays homepage.
      *
      * @return string
@@ -130,6 +142,17 @@ class SiteController extends Controller
             'document' => $document,
             'page' => $page
         ]);
+    }
+
+    public function actionDownload($id)
+    {
+        $document = Document::findOne(['id' => $id]);
+
+        if (!$document || (time() - $document->created > 30 * 60)) {
+            return $this->redirect('/');
+        }
+
+        return "download " . $id;
     }
 
 }

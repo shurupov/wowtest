@@ -46,6 +46,7 @@ $config = [
             'rules' => [
                 'result/<id>' => 'site/result',
                 'result/<id>/<page>' => 'site/result',
+                'download/<id>' => 'site/download',
             ],
         ],
 
