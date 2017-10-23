@@ -79,7 +79,7 @@ class SiteController extends Controller
 
                 $id = uniqid();
 
-                $pdf_filename = Yii::getAlias('@webroot') . '/uploads/' . $id;
+                $pdf_filename = Yii::getAlias('@webroot') . '/uploads/' . $id . '.pdf';
 
                 move_uploaded_file($_FILES['files']['tmp_name'][0], $pdf_filename);
 
@@ -135,7 +135,7 @@ class SiteController extends Controller
         $data = Yii::$app->session->get($id);
 
         if ($data['page'] < $data['pages']) {
-            $myurl = Yii::getAlias('@webroot') . '/uploads/' . $id . '[' . $data['page'] . ']';
+            $myurl = Yii::getAlias('@webroot') . '/uploads/' . $id . '.pdf[' . $data['page'] . ']';
             $image = new Imagick($myurl);
             $image->setResolution( 300, 300 );
             $image->setImageFormat( "png" );
@@ -152,6 +152,11 @@ class SiteController extends Controller
             'pageCount' => $data['pages']
         ]);
 
+    }
+
+    public function actionResult($id)
+    {
+        echo $id;
     }
 
     /**

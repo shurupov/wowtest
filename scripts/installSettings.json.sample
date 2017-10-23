@@ -3,7 +3,7 @@
     "php" : true,
     "mysql" : true,
     "apache" : true,
-    "phpmyadmin" : false,
+    "phpmyadmin" : true,
     "project" : true
   },
   "dbPassword" : "12345",
