@@ -195,4 +195,13 @@ class SiteController extends Controller
         return $this->redirect('/archives/' . $id . '.zip');
     }
 
+    public function render($view, $params = [])
+    {
+        $params = array_merge($params, [
+            'html'   => new \yii\helpers\Html()
+        ]);
+
+        return parent::render($view, $params);
+    }
+
 }
