@@ -126,7 +126,7 @@ class SiteController extends Controller
             $image = new Imagick($myurl);
             $image->setResolution( 300, 300 );
             $image->setImageFormat( "png" );
-            $image->writeImage( Yii::getAlias('@webroot') . '/pdf-images/' . $id . '_' . $data['page'] . '.png' );
+            $image->writeImage( Yii::getAlias('@webroot') . '/images/' . $id . '_' . $data['page'] . '.png' );
 
             $data['page'] += 1;
 
@@ -182,26 +182,31 @@ class SiteController extends Controller
             throw new ServerErrorHttpException('Произошла непредвиденная ошибка');
         }
 
+        $zip->addEmptyDir('assets');
+
+        $zip->addFile( Yii::getAlias('@webroot') . '/css/bootstrap.css', 'assets/bootstrap.css' );
+        $zip->addFile( Yii::getAlias('@webroot') . '/css/site.css',      'assets/site.css' );
+
         $zip->addEmptyDir('images');
         for ( $i = 0; $i < $document->pages_count; $i++ ) {
             $zip->addFile(
-                Yii::getAlias('@webroot') . '/pdf-images/' . $id . '_' . $i . '.png',
+                Yii::getAlias('@webroot') . '/images/' . $id . '_' . $i . '.png',
                 'images/' . $id . '_' . $i . '.png'
             );
+
+            $html = $this->render('slider', [
+                'id' => $id,
+                'document' => $document,
+                'page' => $i,
+                'static' => true
+            ]);
+
+            $zip->addFromString($i . '.html', $html);
         }
 
         $zip->close();
 
         return $this->redirect('/archives/' . $id . '.zip');
-    }
-
-    public function render($view, $params = [])
-    {
-        $params = array_merge($params, [
-            'html'   => new \yii\helpers\Html()
-        ]);
-
-        return parent::render($view, $params);
     }
 
 }

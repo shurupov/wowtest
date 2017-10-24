@@ -62,9 +62,9 @@ $config = [
                         'debug' => true,
                     ],
                     'globals' => [
-                        'html'   => '\yii\helpers\Html',
-                        'arhelp' => '\yii\helpers\ArrayHelper',
-                        'url'    => '\yii\helpers\Url'
+                        'html'   => ['class' => '\yii\helpers\Html'],
+                        'arhelp' => ['class' => '\yii\helpers\ArrayHelper'],
+                        'url'    => ['class' => '\yii\helpers\Url']
                     ],
                     'uses' => ['yii\bootstrap'],
                     'extensions' => ['Twig_Extension_Debug']
@@ -78,7 +78,7 @@ $config = [
     'params' => $params,
 ];
 
-if (YII_ENV_DEV) {
+/*if (YII_ENV_DEV) {
     // configuration adjustments for 'dev' environment
     $config['bootstrap'][] = 'debug';
     $config['modules']['debug'] = [
@@ -93,6 +93,6 @@ if (YII_ENV_DEV) {
         // uncomment the following to add your IP if you are not connecting from localhost.
         'allowedIPs' => ['192.168.*.*'],
     ];
-}
+}*/
 
 return $config;

@@ -1,28 +1,29 @@
 {% extends "/layouts/base.html.twig" %}
 
+{% block title %}{{ document.name }}{% endblock %}
+
 {% block body %}
 
-    {{ set(this, 'title', document.name) }}
     <div class="site-about">
         <h1>{{ document.name }}</h1>
 
-        <a href="/download/{{ document.id }}">Скачать</a>
+        {% if not static %}<a href="/download/{{ document.id }}">Скачать</a>{% endif %}
 
         <nav aria-label="Page navigation">
             <ul class="pagination">
 
                 <li{% if (page < 1) %} class="disabled"{% endif %}>
-                    <a {% if (page > 0) %}href="/result/{{ document.id }}/{{ (page - 1) }}" {% endif %} aria-label="Previous">
+                    <a {% if (page > 0) %}href="{% if not static %}/result/{{ document.id }}/{% endif %}{{ (page - 1) }}{% if static %}.html{% endif %}" {% endif %} aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
                     </a>
                 </li>
 
                 {% for p in (0..document.pages_count - 1) %}
-                    <li{% if (p == page) %} class="active"{% endif %}><a href="/result/{{ document.id }}/{{ p }}">{{ (p + 1) }}</a></li>
+                    <li{% if (p == page) %} class="active"{% endif %}><a href="{% if not static %}/result/{{ document.id }}/{% endif %}{{ p }}{% if static %}.html{% endif %}">{{ (p + 1) }}</a></li>
                 {% endfor %}
 
                 <li{% if (page == document.pages_count - 1) %} class="disabled"{% endif %}>
-                    <a {% if (page < document.pages_count - 1) %}href="/result/{{ document.id }}/{{ (page + 1) }}"{% endif %} aria-label="Next">
+                    <a {% if (page < document.pages_count - 1) %}href="{% if not static %}/result/{{ document.id }}/{% endif %}{{ (page + 1) }}{% if static %}.html{% endif %}"{% endif %} aria-label="Next">
                         <span aria-hidden="true">&raquo;</span>
                     </a>
                 </li>
@@ -31,7 +32,7 @@
 
         <div class="panel panel-default">
             <div class="panel-body">
-                <img src="/pdf-images/{{ document.id }}_{{ page }}.png" class="img-responsive img-thumbnail center-block">
+                <img src="{% if not static %}/{% endif %}images/{{ document.id }}_{{ page }}.png" class="img-responsive img-thumbnail center-block">
             </div>
         </div>
 
@@ -39,17 +40,17 @@
             <ul class="pagination">
 
                 <li{% if (page < 1) %} class="disabled"{% endif %}>
-                    <a {% if (page > 0) %}href="/result/{{ document.id }}/{{ (page - 1) }}" {% endif %} aria-label="Previous">
+                    <a {% if (page > 0) %}href="{% if not static %}/result/{{ document.id }}/{% endif %}{{ (page - 1) }}{% if static %}.html{% endif %}" {% endif %} aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
                     </a>
                 </li>
 
                 {% for p in (0..document.pages_count - 1) %}
-                    <li{% if (p == page) %} class="active"{% endif %}><a href="/result/{{ document.id }}/{{ p }}">{{ (p + 1) }}</a></li>
+                    <li{% if (p == page) %} class="active"{% endif %}><a href="{% if not static %}/result/{{ document.id }}/{% endif %}{{ p }}{% if static %}.html{% endif %}">{{ (p + 1) }}</a></li>
                 {% endfor %}
 
                 <li{% if (page == document.pages_count - 1) %} class="disabled"{% endif %}>
-                    <a {% if (page < document.pages_count - 1) %}href="/result/{{ document.id }}/{{ (page + 1) }}"{% endif %} aria-label="Next">
+                    <a {% if (page < document.pages_count - 1) %}href="{% if not static %}/result/{{ document.id }}/{% endif %}{{ (page + 1) }}{% if static %}.html{% endif %}"{% endif %} aria-label="Next">
                         <span aria-hidden="true">&raquo;</span>
                     </a>
                 </li>

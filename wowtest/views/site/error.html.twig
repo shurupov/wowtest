@@ -1,8 +1,9 @@
 {% extends "/layouts/base.html.twig" %}
 
+{% block title %}{{ name }}{% endblock %}
+
 {% block body %}
 
-    {{ set(this, 'title', name) }}
     <div class="site-error">
 
         <h1>{{ title }}</h1>
