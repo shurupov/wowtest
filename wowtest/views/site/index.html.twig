@@ -1,36 +1,42 @@
-{{ set(this, 'title', 'Загрузка файлов') }}
+{% extends "/layouts/base.html.twig" %}
 
-<div class="site-index">
+{% block body %}
 
-    <div class="jumbotron">
-        <h1>Загрузить</h1>
+    {{ set(this, 'title', 'Загрузка файлов') }}
 
-        <p class="lead">Нажмите на кнопку ниже или перетащите в неё файл</p>
+    <div class="site-index">
 
-        <p>
-            <span class="btn btn-lg btn-success fileinput-button">
-                <i class="glyphicon glyphicon-plus"></i>
-                <span>Выбрать файл...</span>
-                            <!-- The file input field used as target for the file upload widget -->
-                <input id="fileupload" type="file" name="files[]" multiple>
-            </span>
-        </p>
+        <div class="jumbotron">
+            <h1>Загрузить</h1>
 
-    </div>
+            <p class="lead">Нажмите на кнопку ниже или перетащите в неё файл</p>
 
-    <div class="body-content">
-
-        <div class="row processors">
+            <p>
+                <span class="btn btn-lg btn-success fileinput-button">
+                    <i class="glyphicon glyphicon-plus"></i>
+                    <span>Выбрать файл...</span>
+                                <!-- The file input field used as target for the file upload widget -->
+                    <input id="fileupload" type="file" name="files[]" multiple>
+                </span>
+            </p>
 
         </div>
 
-        <div class="row">
-            {% for document in documents %}
-                <div class="col-sm-12">
-                    <a href="/result/{{ document.id }}">{{ document.name }}</a>
-                </div>
-            {% endfor %}
-        </div>
+        <div class="body-content">
 
+            <div class="row processors">
+
+            </div>
+
+            <div class="row">
+                {% for document in documents %}
+                    <div class="col-sm-12">
+                        <a href="/result/{{ document.id }}">{{ document.name }}</a>
+                    </div>
+                {% endfor %}
+            </div>
+
+        </div>
     </div>
-</div>
+
+{% endblock %}

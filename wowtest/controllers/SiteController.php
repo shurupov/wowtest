@@ -6,9 +6,14 @@ use app\models\Document;
 use Imagick;
 use Yii;
 use yii\web\Controller;
+use yii\web\NotFoundHttpException;
+use yii\web\ServerErrorHttpException;
+use ZipArchive;
 
 class SiteController extends Controller
 {
+
+    public $layout = false;
 
     /**
      * @inheritdoc
@@ -29,7 +34,10 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $documents = Document::find()->where('created > ' . (time() - 60 * 30))->all();
+        $documents = Document::find()->
+            where('created > ' . (time() - 60 * 30))->
+            orderBy('created DESC')->
+            all();
 
         return $this->render('index', [
             'documents' => $documents
@@ -73,7 +81,7 @@ class SiteController extends Controller
                 $document->id = $id;
                 $document->name = $_FILES['files']['name'][0];
                 $document->pages_count = $pageCount;
-                $document->created = time();
+                $document->created = 0;
 
                 $document->save(false);
 
@@ -123,6 +131,12 @@ class SiteController extends Controller
             $data['page'] += 1;
 
             Yii::$app->session->set(Yii::$app->request->post('id'), $data);
+
+            if ($data['page'] == ($data['pages'] - 1)) {
+                $document = Document::findOne($id);
+                $document->created = time();
+                $document->save(false);
+            }
         }
 
         return json_encode([
@@ -138,7 +152,7 @@ class SiteController extends Controller
         $document = Document::findOne(['id' => $id]);
 
         if (!$document || (time() - $document->created > 30 * 60)) {
-            return $this->redirect('/');
+            throw new NotFoundHttpException('Документ не найден');
         }
 
         return $this->render('slider', [
@@ -150,13 +164,32 @@ class SiteController extends Controller
 
     public function actionDownload($id)
     {
-        $document = Document::findOne(['id' => $id]);
+        $document = Document::findOne($id);
 
         if (!$document || (time() - $document->created > 30 * 60)) {
-            return $this->redirect('/');
+            throw new NotFoundHttpException('Документ не найден');
         }
 
-        return "download " . $id;
+        $zipPath = Yii::getAlias('@webroot') . '/archives/' . $id . '.zip';
+
+        if (file_exists($zipPath)) {
+            return $this->redirect('/archives/' . $id . '.zip');
+        }
+
+        $zip = new ZipArchive();
+
+        if ($zip->open($zipPath, ZipArchive::CREATE)!==TRUE) {
+            throw new ServerErrorHttpException('Произошла непредвиденная ошибка');
+        }
+
+        $zip->addEmptyDir('images');
+        for ( $i = 0; $i < $document->pages_count; $i++ ) {
+            $zip->addFile(Yii::getAlias('@webroot') . '/pdf-images/' . $id . '_' . $i . '.png', 'images/' . $id . '_' . $i . '.png');
+        }
+
+        $zip->close();
+
+        return $this->redirect('/archives/' . $id . '.zip');
     }
 
 }
