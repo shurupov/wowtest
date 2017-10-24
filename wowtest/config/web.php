@@ -50,6 +50,30 @@ $config = [
             ],
         ],
 
+        'view' => [
+            'class' => 'yii\web\View',
+            'renderers' => [
+                'twig' => [
+                    'class' => 'yii\twig\ViewRenderer',
+                    'cachePath' => '@runtime/Twig/cache',
+                    // Array of twig options:
+                    'options' => [
+                        'auto_reload' => true,
+                        'debug' => true,
+                    ],
+                    'globals' => [
+                        'html'   => '\yii\helpers\Html',
+                        'arhelp' => '\yii\helpers\ArrayHelper',
+                        'url'    => '\yii\helpers\Url'
+                    ],
+                    'uses' => ['yii\bootstrap'],
+                    'extensions' => ['Twig_Extension_Debug']
+                ],
+
+            ],
+            'defaultExtension' => /*'php'*/'html.twig'
+        ],
+
     ],
     'params' => $params,
 ];

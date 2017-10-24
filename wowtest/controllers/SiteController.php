@@ -29,7 +29,11 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $documents = Document::find()->where('created > ' . (time() - 60 * 30))->all();
+
+        return $this->render('index', [
+            'documents' => $documents
+        ]);
     }
 
     /**

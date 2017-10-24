@@ -1,0 +1,15 @@
+
+{{ set(this, 'title', name) }}
+<div class="site-error">
+
+    <h1>{{ title }}</h1>
+
+    <div class="alert alert-danger">
+        {{ message | nl2br }}
+    </div>
+
+    <p>
+        Произошла непредвиденная ошибка
+    </p>
+
+</div>

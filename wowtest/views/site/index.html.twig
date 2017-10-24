@@ -1,9 +1,5 @@
-<?php
+{{ set(this, 'title', 'Загрузка файлов') }}
 
-/* @var $this yii\web\View */
-
-$this->title = 'My Yii Application';
-?>
 <div class="site-index">
 
     <div class="jumbotron">
@@ -26,6 +22,14 @@ $this->title = 'My Yii Application';
 
         <div class="row processors">
 
+        </div>
+
+        <div class="row">
+            {% for document in documents %}
+                <div class="col-sm-12">
+                    <a href="/result/{{ document.id }}">{{ document.name }}</a>
+                </div>
+            {% endfor %}
         </div>
 
     </div>

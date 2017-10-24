@@ -56,6 +56,7 @@ PDFProcessor = function(data, readyHandler) {
     this.addResultLink = function() {
         $resultContainer.html(
             '<a href="/result/' + id + '" target="_blank">Посмотреть результат</a>' +
+            '&nbsp;' +
             '<a href="/download/' + id + '" target="_blank">Скачать</a>'
         );
     };
