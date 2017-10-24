@@ -209,4 +209,21 @@ class SiteController extends Controller
         return $this->redirect('/archives/' . $id . '.zip');
     }
 
+    public function actionImages($id)
+    {
+        $document = Document::findOne($id);
+
+        if (!$document || (time() - $document->created > 30 * 60)) {
+            throw new NotFoundHttpException('Документ не найден');
+        }
+
+        $result = [];
+
+        for ($i = 0; $i < $document->pages_count; $i++) {
+            $result[] = '/images/' . $id . '_' . $i . '.png';
+        }
+
+        return $this->asJson($result);
+    }
+
 }

@@ -47,6 +47,7 @@ $config = [
                 'result/<id>' => 'site/result',
                 'result/<id>/<page>' => 'site/result',
                 'download/<id>' => 'site/download',
+                'image-list' => 'site/images'
             ],
         ],
 
