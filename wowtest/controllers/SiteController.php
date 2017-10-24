@@ -184,7 +184,10 @@ class SiteController extends Controller
 
         $zip->addEmptyDir('images');
         for ( $i = 0; $i < $document->pages_count; $i++ ) {
-            $zip->addFile(Yii::getAlias('@webroot') . '/pdf-images/' . $id . '_' . $i . '.png', 'images/' . $id . '_' . $i . '.png');
+            $zip->addFile(
+                Yii::getAlias('@webroot') . '/pdf-images/' . $id . '_' . $i . '.png',
+                'images/' . $id . '_' . $i . '.png'
+            );
         }
 
         $zip->close();
