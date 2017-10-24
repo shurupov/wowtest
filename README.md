@@ -4,7 +4,7 @@
 
 1. Файл [scripts/installSettings.json.sample](scripts/installSettings.json.sample) скопировать в scripts/installSettings.json
 
-2. В свойство githubToken файла `scripts/installSettings.json` добавить свой github токен. Это нужно для того, чтобы композер скачал yii2.
+2. В свойство githubToken файла `scripts/installSettings.json` добавить свой github токен. Перед этим его можно создать [тут](https://github.com/settings/tokens). Это нужно для того, чтобы композер скачал yii2.
 
 3. В hosts-файле прописать
 ``192.168.22.25 wowtest.dev``
