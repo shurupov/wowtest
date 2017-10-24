@@ -2,20 +2,24 @@
 
 ## Как запускать проект
 
-1. Сначала надо в hosts-файле прописать
+1. Файл [scripts/installSettings.json.sample](scripts/installSettings.json.sample) скопировать в scripts/installSettings.json
+
+2. В свойство githubToken файла `scripts/installSettings.json` добавить свой github токен. Это нужно для того, чтобы композер скачал yii2.
+
+3. В hosts-файле прописать
 ``192.168.22.25 wowtest.dev``
 
-2. Потом надо установить [VirtualBox](https://www.virtualbox.org/wiki/Downloads) последней версии
+4. Потом надо установить [VirtualBox](https://www.virtualbox.org/wiki/Downloads) последней версии
 
-3. Установить [Vagrant](https://www.vagrantup.com/downloads.html)
+5. Установить [Vagrant](https://www.vagrantup.com/downloads.html)
 
-4. Перейти в терминал/консоль
+6. Перейти в терминал/консоль
 
-5. В терминале перейти в папку [vm/ubuntu1604](vm/ubuntu1604) `cd vm/ubuntu1604`
+7. В терминале перейти в папку [vm/ubuntu1604](vm/ubuntu1604) `cd vm/ubuntu1604`
 
-6. Ввести в терминале `vagrant plugin install vagrant-vbguest`
+8. Ввести в терминале `vagrant plugin install vagrant-vbguest`
 
-7. Ввести `vagrant up`
+9. Ввести `vagrant up`
 
 После этого установится и запустится виртуальная машина со всем окружением. Всё установится, настроится и запустится.
 
