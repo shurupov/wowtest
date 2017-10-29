@@ -1,7 +1,8 @@
 <?php
 
-namespace app\helpers;
+namespace tests\helpers;
 
+use app\helpers\PdfService;
 use PHPUnit_Framework_TestCase;
 use Yii;
 
