@@ -13,7 +13,7 @@ use Yii;
  */
 class PdfService
 {
-    private function getPdfPath($id)
+    public function getPdfPath($id)
     {
         return Yii::getAlias('@webroot') . '/uploads/' . $id . '.pdf';
     }

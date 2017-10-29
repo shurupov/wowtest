@@ -11,6 +11,19 @@ if $INSTALL_MYSQL; then
     sudo debconf-set-selections <<< "mysql-server mysql-server/root_password password $DBPASSWD"
     sudo debconf-set-selections <<< "mysql-server mysql-server/root_password_again password $DBPASSWD"
     sudo apt install -y mysql-server
+    echo "Start installing db data"
+    cd db
+    dirs=( $(ls) )
+    for dir in ${dirs[@]}; do
+        echo $dir
+        cd $dir
+        files=( $(ls) )
+        for file in ${files[@]}; do
+            sudo mysql --password=$DBPASSWD < $file
+            echo Dump db/$dir/$file applied
+        done
+        cd ..
+    done
 fi
 
 if $INSTALL_APACHE; then
