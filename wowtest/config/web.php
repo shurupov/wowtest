@@ -45,6 +45,7 @@ $config = [
             'showScriptName' => false,
             'rules' => [
                 'result/<id>' => 'site/result',
+                'upload' => 'site/upload',
                 'result/<id>/<page>' => 'site/result',
                 'download/<id>' => 'site/download',
                 'image-list' => 'site/images'
@@ -74,6 +75,14 @@ $config = [
             ],
             'defaultExtension' => /*'php'*/'html.twig'
         ],
+
+        'pdf' => array(
+            'class' => 'app\helpers\PdfService'
+        ),
+
+        'zip' => array(
+            'class' => 'app\helpers\ZipService'
+        ),
 
     ],
     'params' => $params,
