@@ -13,13 +13,18 @@ use Yii;
  */
 class PdfService
 {
+    private function getPdfPath($id)
+    {
+        return Yii::getAlias('@webroot') . '/uploads/' . $id . '.pdf';
+    }
+
     public function startProcess()
     {
         if (Yii::$app->request->isPost) {
 
             $id = uniqid();
 
-            $pdf_filename = Yii::getAlias('@webroot') . '/uploads/' . $id . '.pdf';
+            $pdf_filename = $this->getPdfPath($id);
 
             move_uploaded_file($_FILES['files']['tmp_name'][0], $pdf_filename);
 
